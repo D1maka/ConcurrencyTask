@@ -1,7 +1,5 @@
 package task2;
 
-import java.util.concurrent.Callable;
-
 public class MergeSort<T extends Comparable> {
 	private T[] sortedArray;
 	private T[] unsortedArray;

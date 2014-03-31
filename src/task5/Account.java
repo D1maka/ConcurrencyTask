@@ -3,9 +3,15 @@ package task5;
 import java.util.concurrent.locks.Lock;
 
 public class Account {
+	private static int currentMaxId = 0;
+	
 	private int id;
 	private int balance;
 	private Lock lock;
+	
+	public Account() {
+		id = currentMaxId++;
+	}
 	
 	public void deposit(int amount) {
 		if (amount > 0) {
@@ -27,7 +33,7 @@ public class Account {
 		return balance;
 	}
 	
-	private Lock getLock() {
+	public Lock getLock() {
 		return lock;
 	}
 }
