@@ -71,7 +71,11 @@ public class ConcurrentCircularBuffer<T> implements MyBuffer<T> {
 	public boolean isFull() {
 		lock.lock();
 		try {
-			return ((endIndex + 1) % data.size()) == startIndex;
+			if (data.size() == 0) {
+				return false;
+			} else {
+				return ((endIndex + 1) % data.size()) == startIndex;
+			}
 		} finally {
 			lock.unlock();
 		}
