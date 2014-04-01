@@ -10,6 +10,7 @@ public class ConcurrentCircularBuffer<T> implements MyBuffer<T> {
 	private ArrayList<T> data;
 	private int startIndex;
 	private int endIndex;
+	private int maxSize;
 	private Lock lock;
 	private Condition isEmptyCondition;
 	private Condition isFullCondition;
@@ -17,6 +18,7 @@ public class ConcurrentCircularBuffer<T> implements MyBuffer<T> {
 	public ConcurrentCircularBuffer(int size) {
 		data = new ArrayList<T>(size);
 		startIndex = endIndex = 0;
+		maxSize = size;
 		lock = new ReentrantLock();
 		isEmptyCondition = lock.newCondition();
 		isFullCondition = lock.newCondition();
@@ -35,9 +37,9 @@ public class ConcurrentCircularBuffer<T> implements MyBuffer<T> {
 				}
 			}
 			data.add(endIndex, value);
-			endIndex = (endIndex + 1) % data.size();
+			endIndex = (endIndex + 1) % maxSize;
 			if (endIndex == startIndex) {
-				startIndex = (startIndex + 1) % data.size();
+				startIndex = (startIndex + 1) % maxSize;
 			}
 			isEmptyCondition.signalAll();
 		} finally {
@@ -50,7 +52,7 @@ public class ConcurrentCircularBuffer<T> implements MyBuffer<T> {
 	public T get() {
 		lock.lock();
 		try {
-			while (isFull()) {
+			while (isEmpty()) {
 				try {
 					isEmptyCondition.await();
 				} catch (InterruptedException e) {
@@ -58,10 +60,10 @@ public class ConcurrentCircularBuffer<T> implements MyBuffer<T> {
 					e.printStackTrace();
 				}
 			}
-			T elem = data.get(startIndex);
-			startIndex = (startIndex + 1) % data.size();
+			T value = data.get(startIndex);
+			startIndex = (startIndex + 1) % maxSize;
 			isFullCondition.signalAll();
-			return elem;
+			return value;
 		} finally {
 			lock.unlock();
 		}
@@ -74,7 +76,7 @@ public class ConcurrentCircularBuffer<T> implements MyBuffer<T> {
 			if (data.size() == 0) {
 				return false;
 			} else {
-				return ((endIndex + 1) % data.size()) == startIndex;
+				return ((endIndex + 1) % maxSize) == startIndex;
 			}
 		} finally {
 			lock.unlock();

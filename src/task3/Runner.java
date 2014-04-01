@@ -9,7 +9,7 @@ public class Runner {
 	public static final int BUFFER_SIZE = 7;
 	
 	public static void main(String[] args) {
-		SyncCircularBuffer<Integer> buffer = new SyncCircularBuffer<>(BUFFER_SIZE);
+		ConcurrentCircularBuffer<Integer> buffer = new ConcurrentCircularBuffer<>(BUFFER_SIZE);
 		ArrayList<Thread> threads = new ArrayList<>();
 		for (int i = 0; i < THREADS_NUMBER; i++) {
 			Thread producer = new Thread(new Producer(buffer, MAX_OPERATIONS));
