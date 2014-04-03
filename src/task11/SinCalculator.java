@@ -15,7 +15,7 @@ public class SinCalculator implements Callable<Double> {
 	@Override
 	public Double call() throws Exception {
 		Double result = new Double(0);
-		for (int i = startValue; i < endValue; i++) {
+		for (int i = startValue; i <= endValue; i++) {
 			result += Math.sin(i);
 		}
 		return result;

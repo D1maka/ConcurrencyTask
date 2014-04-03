@@ -22,13 +22,15 @@ public class Runner {
 		ExecutorService executorService = Executors
 				.newFixedThreadPool(THREADS_NUMBER);
 
-		int segment = (2 * N + 1) % THREADS_NUMBER;
+		int segment = (2 * N + 1) / THREADS_NUMBER;
+		System.out.println("Segment: " + segment);
 		int startValue = -N;
 		int endValue = startValue + segment;
 
 		for (int i = 0; i < THREADS_NUMBER; i++) {
-			sins.add(new SinCalculator(startValue, endValue));
-			startValue = endValue + 1;
+			System.out.println(i + ") [" + startValue + "; " + endValue + "]");
+			sins.add(new SinCalculator(startValue, endValue - 1));
+			startValue = endValue;
 			endValue = startValue + segment;
 		}
 

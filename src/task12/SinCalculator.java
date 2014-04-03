@@ -18,7 +18,7 @@ public class SinCalculator extends Thread {
 	@Override
 	public void run() {
 		Double result = new Double(0);
-		for (int i = startValue; i < endValue; i++) {
+		for (int i = startValue; i <= endValue; i++) {
 			result += Math.sin(i);
 		}
 		while (controlTaken) {

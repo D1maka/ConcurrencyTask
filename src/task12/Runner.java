@@ -11,14 +11,14 @@ public class Runner {
 
 	public static void main(String[] args) {
 		long startTime = Calendar.getInstance().getTimeInMillis();
-		int segment = (2 * N + 1) % THREADS_NUMBER;
+		int segment = (2 * N + 1) / THREADS_NUMBER;
 		int startValue = -N;
 		int endValue = startValue + segment;
 		ArrayList<Thread> threads = new ArrayList<Thread>();
 
 		for (int i = 0; i < THREADS_NUMBER; i++) {
-			threads.add(new task12.SinCalculator(startValue, endValue));
-			startValue = endValue + 1;
+			threads.add(new task12.SinCalculator(startValue, endValue - 1));
+			startValue = endValue;
 			endValue = startValue + segment;
 		}
 		
