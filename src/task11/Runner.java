@@ -23,14 +23,11 @@ public class Runner {
 				.newFixedThreadPool(THREADS_NUMBER);
 
 		int segment = (2 * N + 1) / THREADS_NUMBER;
-		System.out.println("Segment: " + segment);
 		int startValue = -N;
 		int endValue = startValue + segment;
 		int additional = (2 * N) % THREADS_NUMBER;
-		System.out.println("additional: " + additional);
 
 		for (int i = 0; i < THREADS_NUMBER; i++) {
-			System.out.println(i + ") [" + startValue + "; " + endValue + "]");
 			sins.add(new SinCalculator(startValue, endValue));
 			startValue = endValue;
 			if (additional > 0) {
