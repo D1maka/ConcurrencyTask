@@ -26,12 +26,18 @@ public class Runner {
 		System.out.println("Segment: " + segment);
 		int startValue = -N;
 		int endValue = startValue + segment;
+		int additional = (2 * N) % THREADS_NUMBER;
 
 		for (int i = 0; i < THREADS_NUMBER; i++) {
 			System.out.println(i + ") [" + startValue + "; " + endValue + "]");
-			sins.add(new SinCalculator(startValue, endValue - 1));
+			sins.add(new SinCalculator(startValue + 1, endValue - 1));
 			startValue = endValue;
-			endValue = startValue + segment;
+			if (additional > 0) {
+				endValue = startValue + segment + 1;
+				additional--;
+			} else {
+				endValue = startValue + segment;
+			}
 		}
 
 		try {

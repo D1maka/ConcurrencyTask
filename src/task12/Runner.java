@@ -13,24 +13,33 @@ public class Runner {
 		long startTime = Calendar.getInstance().getTimeInMillis();
 		int segment = (2 * N + 1) / THREADS_NUMBER;
 		int startValue = -N;
+		int additional = (2 * N) % THREADS_NUMBER;
+		
 		int endValue = startValue + segment;
 		ArrayList<Thread> threads = new ArrayList<Thread>();
 
 		for (int i = 0; i < THREADS_NUMBER; i++) {
-			threads.add(new task12.SinCalculator(startValue, endValue - 1));
+			threads.add(new task12.SinCalculator(startValue + 1, endValue - 1));
 			startValue = endValue;
-			endValue = startValue + segment;
+			if (additional > 0) {
+				endValue = startValue + segment + 1;
+				additional--;
+			} else {
+				endValue = startValue + segment;
+			}
 		}
 		
 		for (Thread thread : threads) {
 			thread.start();
 		}
 		
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		for (int i = 0; i < threads.size(); i++) {
+			try {
+				threads.get(i).join();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		startTime = Calendar.getInstance().getTimeInMillis() - startTime;
 		System.out.println("Sin value: " + task12.SinCalculator.sinValue);
