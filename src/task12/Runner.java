@@ -6,7 +6,7 @@ import java.util.Calendar;;
 
 public class Runner {
 	
-	public static final int THREADS_NUMBER = 5;
+	public static final int THREADS_NUMBER = 3;
 	public static final int N = 200;
 
 	public static void main(String[] args) {
@@ -19,7 +19,7 @@ public class Runner {
 		ArrayList<Thread> threads = new ArrayList<Thread>();
 
 		for (int i = 0; i < THREADS_NUMBER; i++) {
-			threads.add(new task12.SinCalculator(startValue + 1, endValue - 1));
+			threads.add(new task12.SinCalculator(startValue, endValue));
 			startValue = endValue;
 			if (additional > 0) {
 				endValue = startValue + segment + 1;

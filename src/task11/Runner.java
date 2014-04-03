@@ -12,7 +12,7 @@ import java.util.concurrent.Future;
 
 public class Runner {
 
-	public static final int THREADS_NUMBER = 10;
+	public static final int THREADS_NUMBER = 20;
 	public static final int N = 2000;
 
 	public static void main(String[] args) {
@@ -27,10 +27,11 @@ public class Runner {
 		int startValue = -N;
 		int endValue = startValue + segment;
 		int additional = (2 * N) % THREADS_NUMBER;
+		System.out.println("additional: " + additional);
 
 		for (int i = 0; i < THREADS_NUMBER; i++) {
 			System.out.println(i + ") [" + startValue + "; " + endValue + "]");
-			sins.add(new SinCalculator(startValue + 1, endValue - 1));
+			sins.add(new SinCalculator(startValue, endValue));
 			startValue = endValue;
 			if (additional > 0) {
 				endValue = startValue + segment + 1;
