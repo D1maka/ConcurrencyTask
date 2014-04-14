@@ -18,12 +18,11 @@ public class MergeSort<T extends Comparable> {
 			return;
 		}
 
-		int midIndex = startIndex + (endIndex - startIndex) / 2;
-		sort(array, startIndex, midIndex);
-		//sort(array, midIndex + 1, endIndex);
+		int midIndex = startIndex + (endIndex - startIndex) / 2;	
 		Thread rightSorterThread = new Thread(new Sorter(array, midIndex + 1,
 				endIndex));
 		rightSorterThread.start();
+		sort(array, startIndex, midIndex);
 		try {
 			rightSorterThread.join();
 		} catch (InterruptedException e) {
